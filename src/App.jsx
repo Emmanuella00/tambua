@@ -337,10 +337,47 @@ export default function Tambua() {
         input[type=number] { -moz-appearance: textfield; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         .t-opt:hover { background: ${C.primaryPale} !important; }
+        .t-container { width: 100%; max-width: 1200px; margin: 0 auto; }
+        .t-hero-img { width: 100%; height: 300px; object-fit: cover; display: block; filter: brightness(0.35); }
+        .t-hero-inner { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 40px 40px; }
+        .t-hero-h1 { font-size: 48px; font-weight: 700; color: white; line-height: 1; letter-spacing: -1.5px; white-space: pre-line; }
+        .t-desc-section { display: flex; align-items: center; gap: 40px; padding: 48px 40px; }
+        .t-desc-text { flex: 1; }
+        .t-stats { display: flex; gap: 1px; background: ${C.borderLt}; }
+        .t-stats > div { flex: 1; padding: 32px 24px; text-align: center; }
+        .t-features { display: flex; flex-direction: row; min-height: 260px; border-top: 1px solid ${C.borderLt}; }
+        .t-features img { width: 45%; object-fit: cover; }
+        .t-features-body { flex: 1; padding: 36px 32px; display: flex; flex-direction: column; justify-content: center; }
+        .t-form-container { max-width: 600px; margin: 0 auto; padding: 0 24px; }
+        .t-result-container { max-width: 700px; margin: 0 auto; }
+        .t-auth-container { max-width: 440px; margin: 0 auto; padding: 0 32px; }
+        .t-nav-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .t-mission { padding: 64px 40px; text-align: center; }
+        .t-mission h2 { font-size: 32px; }
+        .t-mission p { max-width: 500px; margin: 20px auto 0; }
+        @media (max-width: 768px) {
+          .t-hero-img { height: 240px; }
+          .t-hero-inner { padding: 0 24px 28px; }
+          .t-hero-h1 { font-size: 36px; }
+          .t-desc-section { flex-direction: column; gap: 20px; padding: 32px 24px; }
+          .t-stats > div { padding: 24px 16px; }
+          .t-features { flex-direction: column !important; }
+          .t-features img { width: 100%; height: 180px; }
+          .t-features-body { padding: 24px 20px; }
+          .t-mission { padding: 40px 24px; }
+          .t-mission h2 { font-size: 24px; }
+        }
+        @media (max-width: 480px) {
+          .t-hero-img { height: 200px; }
+          .t-hero-h1 { font-size: 30px; }
+          .t-desc-section { padding: 28px 20px; }
+          .t-stats > div { padding: 20px 12px; }
+        }
       `}</style>
-      <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: C.bg, color: C.text, maxWidth: 480, margin: "0 auto" }}>
+      <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: C.bg, color: C.text }}>
         {/* NAV */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 24px", background: "rgba(244,250,248,0.95)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 10, borderBottom: `1px solid ${C.borderLt}` }}>
+        <div style={{ background: "rgba(244,250,248,0.95)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 10, borderBottom: `1px solid ${C.borderLt}`, padding: "14px 24px" }}>
+          <div className="t-nav-inner">
           <span style={{ fontSize: 20, fontWeight: 700, color: C.primaryDk, cursor: "pointer", letterSpacing: -0.5 }} onClick={() => nav("home")}>Tambua</span>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ position: "relative" }}>
@@ -353,6 +390,7 @@ export default function Tambua() {
             </div>
             <div onClick={() => { setUser(null); nav("home"); }} style={{ padding: "5px 12px", cursor: "pointer", fontSize: 12, fontWeight: 600, color: C.textLt }}>{t.logout}</div>
           </div>
+          </div>
         </div>
 
         <div style={{ opacity: fade ? 1 : 0, transform: fade ? "translateY(0)" : "translateY(6px)", transition: "opacity 0.3s, transform 0.3s" }}>
@@ -361,33 +399,35 @@ export default function Tambua() {
         {page === "home" && <>
           {/* HERO */}
           <div style={{ position: "relative", overflow: "hidden" }}>
-            <img src={IMGS.hero} alt="" style={{ width: "100%", height: 280, objectFit: "cover", display: "block", filter: "brightness(0.35)" }} />
-            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 28px 32px" }}>
+            <img src={IMGS.hero} alt="" className="t-hero-img" />
+            <div className="t-hero-inner">
               <FadeSection>
-                <h1 style={{ fontSize: 38, fontWeight: 700, color: "white", lineHeight: 1, letterSpacing: -1, whiteSpace: "pre-line" }}>{t.tagline}</h1>
-                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 8, fontWeight: 500 }}>{t.tagSub}</p>
+                <h1 className="t-hero-h1">{t.tagline}</h1>
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", marginTop: 8, fontWeight: 500 }}>{t.tagSub}</p>
               </FadeSection>
             </div>
           </div>
 
           {/* DESCRIPTION */}
           <FadeSection delay={0.1}>
-            <div style={{ padding: "32px 28px" }}>
-              <p style={{ fontSize: 15, color: C.textMid, lineHeight: 1.7 }}>{t.heroDesc}</p>
-              <button onClick={() => nav("risk")} style={{ marginTop: 20, padding: "13px 36px", background: C.primary, color: "white", border: "none", borderRadius: 24, fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}
-                onMouseEnter={e => e.target.style.background = C.primaryDk} onMouseLeave={e => e.target.style.background = C.primary}>
-                {t.getStarted} →
-              </button>
+            <div className="t-desc-section">
+              <div className="t-desc-text">
+                <p style={{ fontSize: 16, color: C.textMid, lineHeight: 1.7 }}>{t.heroDesc}</p>
+                <button onClick={() => nav("risk")} style={{ marginTop: 24, padding: "14px 40px", background: C.primary, color: "white", border: "none", borderRadius: 24, fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}
+                  onMouseEnter={e => e.target.style.background = C.primaryDk} onMouseLeave={e => e.target.style.background = C.primary}>
+                  {t.getStarted} →
+                </button>
+              </div>
             </div>
           </FadeSection>
 
           {/* STATS */}
           <FadeSection delay={0.15}>
-            <div style={{ display: "flex", gap: 1, background: C.borderLt }}>
+            <div className="t-stats">
               {[[t.stat1, t.stat1Label], [t.stat2, t.stat2Label], [t.stat3, t.stat3Label]].map(([n, l], i) => (
-                <div key={i} style={{ flex: 1, background: C.white, padding: "24px 16px", textAlign: "center" }}>
-                  <div style={{ fontSize: 28, fontWeight: 700, color: C.primary, letterSpacing: -1 }}>{n}</div>
-                  <div style={{ fontSize: 11, color: C.textLt, marginTop: 4, lineHeight: 1.4, textTransform: "uppercase", letterSpacing: 0.5 }}>{l}</div>
+                <div key={i} style={{ background: C.white }}>
+                  <div style={{ fontSize: 36, fontWeight: 700, color: C.primary, letterSpacing: -1 }}>{n}</div>
+                  <div style={{ fontSize: 11, color: C.textLt, marginTop: 6, lineHeight: 1.4, textTransform: "uppercase", letterSpacing: 0.5 }}>{l}</div>
                 </div>
               ))}
             </div>
@@ -395,9 +435,9 @@ export default function Tambua() {
 
           {/* MISSION */}
           <FadeSection delay={0.15}>
-            <div style={{ padding: "48px 28px", textAlign: "center" }}>
-              <h2 style={{ fontSize: 24, fontWeight: 700, color: C.text, lineHeight: 1.2, letterSpacing: -0.5, whiteSpace: "pre-line" }}>{t.missionTitle}</h2>
-              <p style={{ fontSize: 14, color: C.textLt, lineHeight: 1.7, marginTop: 16, maxWidth: 360, margin: "16px auto 0" }}>{t.missionDesc}</p>
+            <div className="t-mission">
+              <h2 style={{ fontWeight: 700, color: C.text, lineHeight: 1.2, letterSpacing: -0.5, whiteSpace: "pre-line" }}>{t.missionTitle}</h2>
+              <p style={{ fontSize: 15, color: C.textLt, lineHeight: 1.7 }}>{t.missionDesc}</p>
             </div>
           </FadeSection>
 
@@ -408,12 +448,12 @@ export default function Tambua() {
             { key: "symptoms", img: null, title: t.f3Title, desc: t.f3Desc, btn: t.describeSymptoms },
           ].map((f, i) => (
             <FadeSection key={f.key} delay={0.1}>
-              <div style={{ display: "flex", flexDirection: i % 2 === 0 ? "row" : "row-reverse", minHeight: 200, borderTop: `1px solid ${C.borderLt}` }}>
-                {f.img && <img src={f.img} alt="" style={{ width: "45%", objectFit: "cover" }} />}
-                <div style={{ flex: 1, padding: "28px 24px", display: "flex", flexDirection: "column", justifyContent: "center", background: i === 2 ? C.primaryPale : C.white }}>
-                  <h3 style={{ fontSize: 18, fontWeight: 700, color: C.text, lineHeight: 1.2, letterSpacing: -0.3, whiteSpace: "pre-line" }}>{f.title}</h3>
-                  <p style={{ fontSize: 13, color: C.textLt, lineHeight: 1.6, marginTop: 10 }}>{f.desc}</p>
-                  <button onClick={() => nav(f.key)} style={{ marginTop: 16, padding: "10px 20px", background: "transparent", border: `1.5px solid ${C.primary}`, borderRadius: 20, fontSize: 13, fontWeight: 600, color: C.primary, cursor: "pointer", fontFamily: "inherit", alignSelf: "flex-start" }}>
+              <div className="t-features" style={{ flexDirection: i % 2 === 0 ? "row" : "row-reverse" }}>
+                {f.img && <img src={f.img} alt="" />}
+                <div className="t-features-body" style={{ background: i === 2 ? C.primaryPale : C.white }}>
+                  <h3 style={{ fontSize: 20, fontWeight: 700, color: C.text, lineHeight: 1.2, letterSpacing: -0.3, whiteSpace: "pre-line" }}>{f.title}</h3>
+                  <p style={{ fontSize: 14, color: C.textLt, lineHeight: 1.6, marginTop: 12 }}>{f.desc}</p>
+                  <button onClick={() => nav(f.key)} style={{ marginTop: 18, padding: "11px 24px", background: "transparent", border: `1.5px solid ${C.primary}`, borderRadius: 20, fontSize: 14, fontWeight: 600, color: C.primary, cursor: "pointer", fontFamily: "inherit", alignSelf: "flex-start" }}>
                     {f.btn} →
                   </button>
                 </div>
@@ -423,14 +463,14 @@ export default function Tambua() {
 
           {/* DISCLAIMER */}
           <FadeSection delay={0.05}>
-            <div style={{ margin: "32px 24px", padding: "16px 20px", borderRadius: 12, background: "#FFFBF3", border: "1px solid #F0DFB8", fontSize: 13, color: "#7A6230", lineHeight: 1.6 }}>
+            <div style={{ maxWidth: 800, margin: "32px auto", padding: "16px 24px", borderRadius: 12, background: "#FFFBF3", border: "1px solid #F0DFB8", fontSize: 13, color: "#7A6230", lineHeight: 1.6 }}>
               {t.disclaimer}
             </div>
           </FadeSection>
         </>}
 
         {/* RISK ASSESSMENT */}
-        {page === "risk" && <div style={{ padding: "0 0 60px" }}>
+        {page === "risk" && <div className="t-form-container" style={{ paddingBottom: 60 }}>
           <button onClick={() => step === 0 ? nav("home") : setStep(step - 1)} style={{ background: "none", border: "none", cursor: "pointer", color: C.primary, fontWeight: 600, fontSize: 14, padding: "16px 24px", fontFamily: "inherit" }}>
             ← {step === 0 ? t.home : t.back}
           </button>
@@ -462,7 +502,7 @@ export default function Tambua() {
         </div>}
 
         {/* NUMBERS */}
-        {page === "numbers" && <div style={{ padding: "0 0 60px" }}>
+        {page === "numbers" && <div className="t-form-container" style={{ paddingBottom: 60 }}>
           <button onClick={() => nav("home")} style={{ background: "none", border: "none", cursor: "pointer", color: C.primary, fontWeight: 600, fontSize: 14, padding: "16px 24px", fontFamily: "inherit" }}>← {t.home}</button>
           <div style={{ padding: "0 24px 20px" }}>
             <h2 style={{ fontSize: 20, fontWeight: 700, color: C.primaryDk }}>{t.f2Title.replace("\n", " ")}</h2>
@@ -487,7 +527,7 @@ export default function Tambua() {
         </div>}
 
         {/* SYMPTOMS */}
-        {page === "symptoms" && <div style={{ padding: "0 0 60px" }}>
+        {page === "symptoms" && <div className="t-form-container" style={{ paddingBottom: 60 }}>
           <button onClick={() => nav("home")} style={{ background: "none", border: "none", cursor: "pointer", color: C.primary, fontWeight: 600, fontSize: 14, padding: "16px 24px", fontFamily: "inherit" }}>← {t.home}</button>
           <div style={{ padding: "0 24px 20px" }}>
             <h2 style={{ fontSize: 20, fontWeight: 700, color: C.primaryDk }}>{t.f3Title.replace("\n", " ")}</h2>
@@ -503,7 +543,7 @@ export default function Tambua() {
         </div>}
 
         {/* RESULTS */}
-        {["risk-results", "numbers-results", "symptoms-results"].includes(page) && <div style={{ padding: "0 0 60px" }}>
+        {["risk-results", "numbers-results", "symptoms-results"].includes(page) && <div className="t-result-container" style={{ padding: "0 24px 60px" }}>
           <button onClick={() => nav("home")} style={{ background: "none", border: "none", cursor: "pointer", color: C.primary, fontWeight: 600, fontSize: 14, padding: "16px 24px", fontFamily: "inherit" }}>← {t.home}</button>
           <div style={{ padding: "0 24px 8px" }}>
             <h2 style={{ fontSize: 20, fontWeight: 700, color: C.primaryDk }}>
