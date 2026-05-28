@@ -277,44 +277,75 @@ export default function Tambua() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        .t-auth-wrap { font-family: 'DM Sans', sans-serif; min-height: 100vh; display: flex; background: ${C.bg}; }
+        .t-auth-left { flex: 1; background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80') center/cover; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px; }
+        .t-auth-left::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,77,59,0.85) 0%, rgba(6,77,59,0.4) 50%, rgba(6,77,59,0.2) 100%); }
+        .t-auth-left > * { position: relative; z-index: 1; }
+        .t-auth-right { width: 480px; display: flex; flex-direction: column; background: white; }
+        .t-auth-right-inner { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; }
+        .t-auth-input { width: 100%; padding: 14px 16px; margin-bottom: 12px; border: 1.5px solid ${C.borderLt}; border-radius: 12px; font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; background: ${C.bg}; transition: border-color 0.15s; }
+        .t-auth-input:focus { border-color: ${C.primary}; }
+        .t-auth-btn { width: 100%; padding: 14px; background: ${C.primary}; color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 12px; transition: background 0.2s; }
+        .t-auth-btn:hover { background: ${C.primaryDk}; }
+        @media (max-width: 960px) {
+          .t-auth-left { display: none; }
+          .t-auth-right { width: 100%; }
+          .t-auth-right-inner { padding: 0 32px; }
+        }
+        @media (max-width: 480px) {
+          .t-auth-right-inner { padding: 0 24px; }
+        }
       `}</style>
-      <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column", maxWidth: 480, margin: "0 auto" }}>
-        <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: 20, fontWeight: 700, color: C.primaryDk, letterSpacing: -0.5 }}>Tambua</span>
-          <select value={lang} onChange={e => setLang(e.target.value)} style={{ padding: "6px 12px", border: `1.5px solid ${C.border}`, borderRadius: 8, background: C.white, fontSize: 13, fontWeight: 600, color: C.primaryDk, fontFamily: "inherit", cursor: "pointer" }}>
-            <option value="en">English</option><option value="fr">Francais</option><option value="rw">Ikinyarwanda</option>
-          </select>
+      <div className="t-auth-wrap">
+        <div className="t-auth-left">
+          <h1 style={{ fontSize: 42, fontWeight: 700, color: "white", lineHeight: 1.1, letterSpacing: -1 }}>TAMBUA</h1>
+          <p style={{ fontSize: 18, color: "rgba(255,255,255,0.8)", marginTop: 12, fontWeight: 500, fontStyle: "italic" }}>Recognize. Understand. Act.</p>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", marginTop: 16, lineHeight: 1.7, maxWidth: 400 }}>
+            AI-powered health awareness for young Africans. Understand your risk for non-communicable diseases before it is too late.
+          </p>
+          <div style={{ display: "flex", gap: 32, marginTop: 32 }}>
+            {[["71%", "NCD deaths globally"], ["#1", "killer in Africa by 2030"], ["10+", "years younger onset"]].map(([n, l], i) => (
+              <div key={i}>
+                <div style={{ fontSize: 24, fontWeight: 700, color: "white" }}>{n}</div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>{l}</div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 32px 60px" }}>
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <h1 style={{ fontSize: 28, fontWeight: 700, color: C.text, letterSpacing: -0.5, lineHeight: 1.2 }}>
-              {authMode === "login" ? t.welcomeBack : t.joinUs}
-            </h1>
-            <p style={{ fontSize: 14, color: C.textLt, marginTop: 8 }}>
-              {authMode === "login" ? t.welcomeSub : t.joinSub}
+        <div className="t-auth-right">
+          <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid ${C.borderLt}` }}>
+            <span style={{ fontSize: 20, fontWeight: 700, color: C.primaryDk, letterSpacing: -0.5 }}>Tambua</span>
+            <select value={lang} onChange={e => setLang(e.target.value)} style={{ padding: "6px 12px", border: `1.5px solid ${C.border}`, borderRadius: 8, background: C.bg, fontSize: 13, fontWeight: 600, color: C.primaryDk, fontFamily: "inherit", cursor: "pointer" }}>
+              <option value="en">English</option><option value="fr">Francais</option><option value="rw">Ikinyarwanda</option>
+            </select>
+          </div>
+          <div className="t-auth-right-inner">
+            <div style={{ textAlign: "center", marginBottom: 36 }}>
+              <h1 style={{ fontSize: 26, fontWeight: 700, color: C.text, letterSpacing: -0.5, lineHeight: 1.2 }}>
+                {authMode === "login" ? t.welcomeBack : t.joinUs}
+              </h1>
+              <p style={{ fontSize: 14, color: C.textLt, marginTop: 8 }}>
+                {authMode === "login" ? t.welcomeSub : t.joinSub}
+              </p>
+            </div>
+            {authMode === "register" && (
+              <input className="t-auth-input" placeholder={t.name} value={authForm.name} onChange={e => setAuthForm({ ...authForm, name: e.target.value })} />
+            )}
+            <input className="t-auth-input" placeholder={t.email} type="email" value={authForm.email} onChange={e => setAuthForm({ ...authForm, email: e.target.value })} />
+            <input className="t-auth-input" placeholder={t.password} type="password" value={authForm.password} onChange={e => setAuthForm({ ...authForm, password: e.target.value })} />
+            {authError && <p style={{ color: "#c0392b", fontSize: 13, margin: "4px 0 8px" }}>{authError}</p>}
+            <button className="t-auth-btn" onClick={handleAuth}>
+              {authMode === "login" ? t.login : t.register}
+            </button>
+            <p style={{ textAlign: "center", marginTop: 20, fontSize: 14, color: C.textLt }}>
+              {authMode === "login" ? t.noAccount : t.hasAccount}{" "}
+              <span style={{ color: C.primary, fontWeight: 700, cursor: "pointer" }} onClick={() => { setAuthMode(authMode === "login" ? "register" : "login"); setAuthError(""); }}>
+                {authMode === "login" ? t.signUp : t.signIn}
+              </span>
             </p>
           </div>
-          {authMode === "register" && (
-            <input placeholder={t.name} value={authForm.name} onChange={e => setAuthForm({ ...authForm, name: e.target.value })}
-              style={{ width: "100%", padding: "14px 16px", marginBottom: 12, border: `1.5px solid ${C.borderLt}`, borderRadius: 12, fontSize: 15, fontFamily: "inherit", outline: "none", background: C.white }} />
-          )}
-          <input placeholder={t.email} type="email" value={authForm.email} onChange={e => setAuthForm({ ...authForm, email: e.target.value })}
-            style={{ width: "100%", padding: "14px 16px", marginBottom: 12, border: `1.5px solid ${C.borderLt}`, borderRadius: 12, fontSize: 15, fontFamily: "inherit", outline: "none", background: C.white }} />
-          <input placeholder={t.password} type="password" value={authForm.password} onChange={e => setAuthForm({ ...authForm, password: e.target.value })}
-            style={{ width: "100%", padding: "14px 16px", marginBottom: 8, border: `1.5px solid ${C.borderLt}`, borderRadius: 12, fontSize: 15, fontFamily: "inherit", outline: "none", background: C.white }} />
-          {authError && <p style={{ color: "#c0392b", fontSize: 13, margin: "4px 0 8px" }}>{authError}</p>}
-          <button onClick={handleAuth} style={{ width: "100%", padding: "14px", background: C.primary, color: "white", border: "none", borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", marginTop: 12, transition: "background 0.2s" }}
-            onMouseEnter={e => e.target.style.background = C.primaryDk} onMouseLeave={e => e.target.style.background = C.primary}>
-            {authMode === "login" ? t.login : t.register}
-          </button>
-          <p style={{ textAlign: "center", marginTop: 20, fontSize: 14, color: C.textLt }}>
-            {authMode === "login" ? t.noAccount : t.hasAccount}{" "}
-            <span style={{ color: C.primary, fontWeight: 700, cursor: "pointer" }} onClick={() => { setAuthMode(authMode === "login" ? "register" : "login"); setAuthError(""); }}>
-              {authMode === "login" ? t.signUp : t.signIn}
-            </span>
-          </p>
+          <p style={{ textAlign: "center", padding: "20px", fontSize: 11, color: C.textMu }}>{t.multilingualNote}</p>
         </div>
-        <p style={{ textAlign: "center", padding: "20px", fontSize: 11, color: C.textMu }}>{t.multilingualNote}</p>
       </div>
     </>
   );
